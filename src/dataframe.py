@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 
+
 class csv_dataset():
     '''
     Helper class to obtain values from the given pandas dataframe
@@ -13,8 +14,10 @@ class csv_dataset():
         assert isinstance(path, str) and os.path.exists(path)
         self.data_path = path
         self.data = pd.read_csv(self.data_path) 
-        #Drop umpire 3 column as it is empty
-        self.data = self.data.drop("umpire3", axis=1)
+
+        if 'matches' in path:
+            #Drop umpire 3 column as it is empty
+            self.data = self.data.drop("umpire3", axis=1)
 
     @property
     def d_frame(self):
@@ -36,13 +39,22 @@ class csv_dataset():
         assert column_idx > len(self.data.columns)
         return self.data[self.data.columns[column_idx]]
 
+
+def load_datasets():
+    '''
+    Returns each dataset handle
+    '''
+    matches = csv_dataset("data/matches.csv").d_frame
+    deliveries = csv_dataset("data/deliveries.csv").d_frame
+    player_auction = csv_dataset("data/IPLPlayerAuctionData.csv").d_frame
+    return matches, deliveries, player_auction
+
+matches, deliveries, auction = load_datasets()
+
 #Unit test
 if __name__ == "__main__":
-    matches_path = "../data/matches.csv"
-    deliveries_path = "../data/deliveries.csv"
-    dataset = csv_dataset(matches_path)
-    data = dataset.d_frame
-    cities = data["city"]
+    cities = matches["city"]
     print(cities)
-
-
+    batsman = deliveries["batsman"]
+    print(batsman)
+    print(auction)
