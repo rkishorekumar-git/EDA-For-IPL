@@ -39,12 +39,6 @@ class Bowler():
         return round(runs / games, 2)
 
     def compare_bowlers(self, other):
-        bowler_1 = self.bowler_name
-        bowler_2 = other.bowler_name
-
-        # bowler_1_stat = self.data.loc[["bowler" == bowler_1]]
-        # bowler_2_stat = other.data.loc[["bowler" == bowler_2]]
-
         #Calculate runs conceived per year and games played per year
         bowler_1_runs, bowler_2_runs = [], []
         bowler_1_games, bowler_2_games = [], []
@@ -56,24 +50,26 @@ class Bowler():
             bowler_1_games.append(num_games_1)
             bowler_2_games.append(num_games_2)
 
-        runs_combined = list(zip(bowler_1_runs, bowler_2_runs))
-        games_combined = list(zip(bowler_1_games, bowler_2_games))
-        return runs_combined, games_combined
+        runs_combined = np.array(list(zip(bowler_1_runs, bowler_2_runs)))
+        games_combined = np.array(list(zip(bowler_1_games, bowler_2_games)))
+        # return runs_combined, games_combined
         
         #Calculate bowling average per year
-        #To be added
+        bowler_1_avg, bowler_2_avg = [], []
+        for year in self.valid_years:
+            b1_avg = self.get_average_runs(year)
+            b2_avg = other.get_average_runs(year)
+            bowler_2_avg.append(b2_avg)
+            bowler_1_avg.append(b1_avg)
+        average_combined = np.array(list(zip(bowler_1_avg, bowler_2_avg)))
+        return runs_combined, games_combined, average_combined
+
 
 if __name__ == "__main__":
     bowler_name_1 = "P Kumar"
-    bowler_name_2 = "SL Malinga"
+    bowler_name_2 = "Harbhajan Singh"
     match_dataframe = pd.read_csv("../data/matches_2017.csv")
     deliveries_dataframe = pd.read_csv("../data/deliveries_2017.csv")
 
-    bowler_info_1 = Bowler(bowler_name_1, match_dataframe, deliveries_dataframe) 
-    bowler_info_2 = Bowler(bowler_name_2, match_dataframe, deliveries_dataframe)
-    runs, games = bowler_info_1.compare_bowlers(bowler_info_2)
-
-    plt.bar(bowler_info_1.valid_years, [run[0] for run in runs], width=0.2, label = bowler_name_1)
-    plt.bar(bowler_info_2.valid_years + 0.2, [run[1] for run in runs], width=0.2,  label = bowler_name_2)
-
+    bowler = Bowler()
 
