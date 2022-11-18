@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 
-
 class csv_dataset():
     '''
     Helper class to obtain values from the given pandas dataframe
@@ -39,22 +38,13 @@ class csv_dataset():
         assert column_idx > len(self.data.columns)
         return self.data[self.data.columns[column_idx]]
 
-
-def load_datasets():
-    '''
-    Returns each dataset handle
-    '''
-    matches = csv_dataset("data/matches.csv").d_frame
-    deliveries = csv_dataset("data/deliveries.csv").d_frame
-    player_auction = csv_dataset("data/IPLPlayerAuctionData.csv").d_frame
-    return matches, deliveries, player_auction
-
-matches, deliveries, auction = load_datasets()
-
 #Unit test
 if __name__ == "__main__":
-    cities = matches["city"]
+    matches_path = "../data/matches.csv"
+    deliveries_path = "../data/deliveries.csv"
+    dataset = csv_dataset(matches_path)
+    data = dataset.d_frame
+    cities = data["city"]
     print(cities)
-    batsman = deliveries["batsman"]
-    print(batsman)
-    print(auction)
+
+
