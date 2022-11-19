@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 class Matches:
     def __init__(self, file_name: str) -> None:
         assert isinstance(file_name, str)
