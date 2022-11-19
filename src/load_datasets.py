@@ -4,8 +4,8 @@ def load_datasets():
     '''
     Returns each dataset handle
     '''
-    matches = csv_dataset("data/matches.csv").d_frame
-    deliveries = csv_dataset("data/deliveries.csv").d_frame
+    matches = csv_dataset("data/matches_2017.csv").d_frame
+    deliveries = csv_dataset("data/deliveries_2017.csv").d_frame
     player_auction = csv_dataset("data/IPLPlayerAuctionData.csv").d_frame
     return matches, deliveries, player_auction
 
