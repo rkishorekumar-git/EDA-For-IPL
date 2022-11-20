@@ -1,8 +1,7 @@
 from load_datasets import deliveries
-from bowler_stats import Bowler
 from batsman_stats import Batsman
-from matplotlib import pyplot as plt
 import numpy as np
+
 class PlayerPerformance():
     '''
     Class to compute players performance characteristics
@@ -17,44 +16,60 @@ class PlayerPerformance():
         """
         self._player = player
         self.valid_years = np.arange(2008, 2018)
-        # List of all bowlers and batsmen 
-        # self.bowlers = deliveries.bowler.unique()
         self.batsmen =  deliveries.batsman.unique()
 
-    def get_strike_rate_per_match(self):
+    def get_runs_per_match(self):
+        """
+        Get runs per match in a given season for the player "self"
+
+        Returns:
+            years           (list): list of years batsman played any matches
+            runs_all_years  (list): list of list of runs scored in every match played in that year for all years
+        """
+
         if self._player in self.batsmen:
             batsman = Batsman(self._player)
 
-            # Strike rate per match
-            year = []
-            strike_rate_years = []
+            # Runs per match
+            years = []
+            runs_all_years = []
             for i in range(len(self.valid_years)):
-                year.append(self.valid_years[i])
                 batsman_stat = batsman.get_batsman_match_stat(self.valid_years[i])
                 game_ids = batsman_stat["match_id"].unique()
-                strike_rate = []
-                for j in range(len(game_ids)):
-                    strike_rate.append(batsman.get_per_match_strike_rate(game_ids[j]))
-                strike_rate_years.append(strike_rate)
+                runs = []
+                if len(game_ids) > 0:
+                    for j in range(len(game_ids)):
+                        runs.append(batsman.get_per_match_runs(game_ids[j]))
+                    runs_all_years.append(runs)
+                    years.append(self.valid_years[i])
         else:
             print("Player Entry not found.")
-        return dict(zip(year, strike_rate_years))
+
+        return dict(zip(years, runs_all_years))
 
     def get_player_performance(self):
+        """
+        Get batsman stats for all years
+
+        Returns:
+            (dict): Batsman stats over all seasons zips are a dict with years as keys
+        """
+
         if self._player in self.batsmen:
             batsman = Batsman(self._player)
-            year = []
-            batsman_stats = []
+            years = []
+            strike_rate_all_years = []
+            max_runs_all_years = []
+            average_all_years = []
+            total_runs_all_years = []
             for i in range(len(self.valid_years)):
-                year.append(self.valid_years[i])
-                stats = batsman.get_batsman_stats(self.valid_years[i])
-                batsman_stats.append(stats)
+                years.append(self.valid_years[i])
+                strike_rate, max_runs, average, total_runs  = batsman.get_batsman_stats(self.valid_years[i])
+                strike_rate_all_years.append(strike_rate)
+                max_runs_all_years.append(max_runs)
+                average_all_years.append(average)
+                total_runs_all_years.append(total_runs)
         else:
             print("Player Entry not found.")
-        return dict(zip(year, batsman_stats))
 
-batsman_1_name = "MS Dhoni"
-player = PlayerPerformance(batsman_1_name)
-print("strike rate:",player.get_strike_rate_per_match()) # { year: [per match strike rate ]}
-print("other stats:",player.get_player_performance()) # { year: {overall_strike_rate, max_runs, avg_runs, total_runs}}
-
+        return years, strike_rate_all_years, max_runs_all_years, average_all_years, total_runs_all_years
