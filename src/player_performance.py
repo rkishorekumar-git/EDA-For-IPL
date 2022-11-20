@@ -69,7 +69,6 @@ class PlayerPerformance():
                 max_runs_all_years.append(max_runs)
                 average_all_years.append(average)
                 total_runs_all_years.append(total_runs)
+            return years, strike_rate_all_years, max_runs_all_years, average_all_years, total_runs_all_years
         else:
-            print("Player Entry not found.")
-
-        return years, strike_rate_all_years, max_runs_all_years, average_all_years, total_runs_all_years
+            raise "Player Entry not found."

@@ -15,8 +15,7 @@ ax2.plot(years, strike_rate, '-o', color='red')
 ax1.set_xlabel('Year')
 ax1.set_ylabel('Total Runs', color='b')
 ax2.set_ylabel('Strike Rates', color='r')
-plt.show()
-plt.close()
+
 
 # Player performance over all seasons - Strike rate and Seasonal runs
 batsman_2_name = "RG Sharma"
@@ -30,8 +29,7 @@ ax2.plot(years, strike_rate, '-o', color='purple')
 ax1.set_xlabel('Year')
 ax1.set_ylabel('Total Runs', color='grey')
 ax2.set_ylabel('Strike Rates', color='purple')
-plt.show()
-plt.close()
+
 
 
 # Compare form of 2 players through IPL. 
@@ -48,51 +46,47 @@ runs_per_match_p2 = player2.get_runs_per_match()
 data = []
 for year in runs_per_match_p1:
     for run in runs_per_match_p1[year]:
-        data.append({'year':year, 'batsman':batsman_1_name, 'run':run})
-
+        data.append({'year':year, 'batsman':batsman_1_name, 'runs':run})
 
 for year in runs_per_match_p2:
     for run in runs_per_match_p2[year]:
-        data.append({'year':year, 'batsman':batsman_2_name, 'run':run})
+        data.append({'year':year, 'batsman':batsman_2_name, 'runs':run})
 
 df = pd.DataFrame(data)
-sns.violinplot(data=df, x="year", y="run", hue="batsman",
+sns.violinplot(data=df, x="year", y="runs", hue="batsman",
                split=True, inner="quart", linewidth=1)
 sns.despine(left=True)
-plt.show()
+
 
 
 # Plotting max runs of various players througout out IPL
-sns.set_theme(style="whitegrid")
+max_runs_data = {}
 
-batsman_name = "V Kholi"
+batsman_name = "V Kohli"
 player = PlayerPerformance(batsman_name)
 years, _, max_runs, _, _ = player.get_player_performance() 
-data = []
-for i in range(len(max_runs)):
-    data.append({'year':years[i], 'batsman':batsman_name, 'max_runs':max_runs[i]})
-
+max_runs_data[batsman_name] =  max_runs
 
 batsman_name = "CH Gayle"
 player = PlayerPerformance(batsman_name)
 years, _, max_runs, _, _ = player.get_player_performance()
-for i in range(len(max_runs)):
-        data.append({'year':years[i], 'batsman':batsman_name, 'max_runs':max_runs[i]})
+max_runs_data[batsman_name] =  max_runs
 
 batsman_name = "RG Sharma"
 player = PlayerPerformance(batsman_name)
 years, _, max_runs, _, _ = player.get_player_performance()
-for i in range(len(max_runs)):
-        data.append({'year':years[i], 'batsman':batsman_name, 'max_runs':max_runs[i]})
+max_runs_data[batsman_name] =  max_runs
 
 batsman_name = "SR Watson"
 player = PlayerPerformance(batsman_name)
 years, _, max_runs, _, _ = player.get_player_performance()
-for i in range(len(max_runs)):
-        data.append({'year':years[i], 'batsman':batsman_name, 'max_runs':max_runs[i]})
+max_runs_data[batsman_name] =  max_runs
 
-df = pd.DataFrame(data)
+plt.figure(figsize=(10, 7))
+plt.title("Max runs over many seasons")
+for key, value in max_runs_data.items():
+    plt.plot(value, label=key, marker="o")
 
-sns.lineplot(data=data, palette="tab10", linewidth=2.5)
-plt.show()
-
+plt.xticks(range(len(years)), years)
+plt.legend(loc='lower center', bbox_to_anchor=(0.5, 1.0),
+    fancybox=True, shadow=True, ncol=4)

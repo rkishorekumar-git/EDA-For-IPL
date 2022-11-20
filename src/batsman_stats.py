@@ -131,10 +131,11 @@ class Batsman():
         batsman_stat = self.get_batsman_match_stat(year)
         game_ids = batsman_stat["match_id"].unique()
         strike_rate = 0
-        for id in game_ids:
-            balls_faced, runs = self.get_runs_per_match(id)
-            strike_rate += round((runs / balls_faced)*100, 2)
-        strike_rate = strike_rate / len(game_ids)
+        if len(game_ids) > 0:
+            for id in game_ids:
+                balls_faced, runs = self.get_runs_per_match(id)
+                strike_rate += round((runs / balls_faced)*100, 2)
+            strike_rate = strike_rate / len(game_ids)
         return strike_rate
 
     def get_per_match_runs(self, match_id):
