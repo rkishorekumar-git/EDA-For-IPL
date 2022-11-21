@@ -68,14 +68,6 @@ def plot_():
     thePath = os.getcwd() + '/winLossRatio.csv'
     winLossPerYear.to_csv(thePath, index=True)
 
-    # plt.plot((winLossPerYear.corrwith(totalBidPerYear, axis=0).to_numpy()), 'o')
-    # plt.show()
-    # plt.plot((winLossPerYear.corrwith(totalBidPerYear, axis=1).to_numpy()), 'o')
-    # plt.show()
-    # plt.plot(matches["Year"].unique(), winLossPerYear.corrwith(
-    #     totalBidPerYear, axis=0).to_numpy())
-    # plt.show()
-
     # Average of the total sum of win/loss ratio for each team per year
     allTeamWLRatioAvg = []
     for i in range(len(years)):
