@@ -5,7 +5,14 @@ from matplotlib import pyplot as plt
 from data_process import Matches
 
 
-def city_toss_winner(city):
+def city_toss_winner(city: str):
+    """
+    Args:
+        city (str): The city name which you want to calculate the probability for toss winner to win
+
+    Returns:
+        float float float: win_rate, #win, #competition
+    """
 
     assert isinstance(city, str)
 
@@ -28,7 +35,14 @@ def city_toss_winner(city):
     return wr, cn, wn
 
 
-def calculate_wr(city_df):
+def calculate_wr(city_df: str):
+    """
+    Args:
+        city_df (str): City name
+
+    Returns:
+        float float float: win_rate, #win, #competition
+    """
     competition_num = len(city_df)
     win_num = 0
     for row in city_df.iterrows():
@@ -42,6 +56,12 @@ def calculate_wr(city_df):
 
 
 def city_toss_winner_graph():
+    
+    """
+    Draw a bar plot. Y axis is the city name; X axis is the rate that the toss winner win the competition finally
+    
+    No explicitly input and output!!!
+    """
     matches = Matches(file_name="data\matches.csv")
     cols = ['city', 'toss_winner', 'winner']
     df = matches.get_frame(cols=cols)

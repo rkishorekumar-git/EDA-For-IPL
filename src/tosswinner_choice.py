@@ -6,6 +6,13 @@ from data_process import Matches
 
 
 def toss_winner_choice_table():
+    """
+    Draw a heat map with four colums.
+    1st column: The probabilty that toss winner choose to bat
+    2nd column: The probabilty that toss winner choose to field
+    3rd column: The probabilty that toss winner choose to bat win the competition finally
+    4th column: The probabilty that toss winner choose to field win the competition finally
+    """
     # preprocess
     matches = Matches(file_name="data\matches.csv")
     cols = ['toss_winner', 'toss_decision', 'winner']

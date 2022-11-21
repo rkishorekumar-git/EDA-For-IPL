@@ -6,6 +6,11 @@ from data_process import Matches
 
 
 def team_toss_winner_graph():
+    """
+    Draw a bar plot. The Y axis is the team name. 
+    The X axis is probabilty the team can win finally when it is the toss winner!!!
+    """
+    
     # preprocess
     matches = Matches(file_name="data\matches.csv")
     cols = ['toss_winner', 'winner']
