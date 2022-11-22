@@ -20,13 +20,11 @@ We currently have collated data from matches season 2008 to 2017 that we analyze
 
 ## Repository Structure
 ### Datasets
----
 The `data/` folder contains:
 - [matches.csv](/data/matches.csv) contains all details of matches played in IPL through season 2008 to 2017. [Link to source](https://www.kaggle.com/code/ambarish/exploratory-data-analysis-ipl)
 - [deliveries.csv](/data/deliveries.csv) contains details of every ball delivery through all matches in IPL sean 2008 to 2017. [Link to source](https://www.kaggle.com/code/ambarish/exploratory-data-analysis-ipl)
 
 ### Source Code
----
 Source code for all data scraping and data analysis files are within the `src/` folder. [Link to Folder](src/)
 
 Data scraping files:
@@ -42,11 +40,9 @@ Data processing files:
 
 
 ### Jupyter Notebook
----
 The [Jupyter Notebook](src/plot_support_book.ipynb) has all the plotting code. All analyzed data is stored as one cell for easy reproducibility. 
 
 ### Graphs
----
 The [`Graphs`](graphs/) folder has images as `.png` of all the analysis plots computed.
 
 ## Third Party Modules
