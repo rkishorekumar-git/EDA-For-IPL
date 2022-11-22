@@ -14,7 +14,8 @@ class csv_dataset():
         self.data_path = path
         self.data = pd.read_csv(self.data_path) 
         #Drop umpire 3 column as it is empty
-        self.data = self.data.drop("umpire3", axis=1)
+        if "matches" in path:
+            self.data = self.data.drop("umpire3", axis=1)
 
     @property
     def d_frame(self):
