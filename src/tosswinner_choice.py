@@ -144,7 +144,7 @@ def city_toss_winner_graph():
     city_wr_frame.reset_index(inplace=True)
     city_wr_frame.rename(columns={'index': 'city'},inplace=True)
     city_wr_frame.sort_values(by="win_rate",inplace=True,ascending=False)
-    pic=sns.barplot(data=city_wr_frame,x='win_rate',y='city',ci=None,hue_order=city_wr_frame["win_rate"], )
+    pic=sns.barplot(data=city_wr_frame,x='win_rate',y='city',errorbar=None,hue_order=city_wr_frame["win_rate"], )
     i=1
 
     for index,row in city_wr_frame.iterrows():
@@ -156,7 +156,7 @@ def city_toss_winner_graph():
     pic.set_title('City to toss and winner',fontsize=18)
     pic.set_xlabel('Probability of toss winner = winner',fontsize=18)
     pic.set_ylabel('City',fontsize=18)
-    sns.set(rc={'figure.figsize':(15,20)}) #The graph size may not fit your computer or screen, feel free to change it!
+    #sns.set(rc={'figure.figsize':(15,20)}) #The graph size may not fit your computer or screen, feel free to change it!
 
-    
+    plt.subplot(111)
     plt.show()
