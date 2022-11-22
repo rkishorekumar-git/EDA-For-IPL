@@ -19,6 +19,9 @@ class csv_dataset():
 
     @property
     def d_frame(self):
+        '''
+        Return the dataframe
+        '''
         return self.data
 
     def get_column_val_by_name(self, column_name):

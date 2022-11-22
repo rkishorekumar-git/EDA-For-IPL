@@ -4,20 +4,47 @@ from collections import defaultdict
 from matplotlib import pyplot as plt
 
 class Innings(object):
+    '''
+    Helper class to extract innings related information for a given bowler
+    '''
     def __init__(self, data, match_id):
+        '''
+        Constructor
+        Input:
+        data: Input dataframe from deliveries
+        '''
         assert isinstance(data, pd.DataFrame)
         self.data = data
         self.id = match_id
-        self.match_deets = self.data.loc[self.data["match_id"] == self.id]
+        if "match_id" in self.data:
+            self.match_deets = self.data.loc[self.data["match_id"] == self.id]
+        else:
+            assert False, "Invalid dataframe"
 
     def get_over_info(self, inning_deets, over):
+        '''
+        Method to return the runs conceived by the bowler in a given over
+        Input:
+        inning_deets: Dataframe containing all the information regarding the given match and innings
+        over: Over number to get the informaiton of
+        Return:
+        Tuple of bowler name and runs conceived by that bowler
+        '''
+        assert isinstance(inning_deets, pd.DataFrame) and isinstance(over, int) and 1<=over<=20
         over_deets = inning_deets.loc[inning_deets["over"] == over]
         bowler_name = np.unique(over_deets["bowler"])
 
         runs_conceived = over_deets["total_runs"].sum()
-        return bowler_name[0], runs_conceived
+        return (bowler_name[0], runs_conceived)
 
     def get_bowling_stat_inning(self, innings):
+        '''
+        Method to return the bowling statistics of all the bowlers in a given innings
+        Input:
+        innings: Innings number
+        Return:
+        Dictionary containing individual bowler performance
+        '''
         assert isinstance(innings, int) and innings in [1, 2]
 
         bowler_dict = defaultdict(list) #List of bowlers per innings
@@ -29,28 +56,3 @@ class Innings(object):
 
         return bowler_dict
     
-if __name__ == "__main__":
-    data = pd.read_csv("../data/deliveries_2017.csv")
-    id = 1
-    innings = 1
-    game = Innings(data, id)
-    bowler_runs_stat = game.get_bowling_stat_inning(innings)
-    total_runs = {}
-    for key in bowler_runs_stat:
-            total_runs[key] = [len(bowler_runs_stat[key]), np.array(bowler_runs_stat[key]).sum()]
-
-    plt.subplots(1, 2, figsize=(10, 5))
-    total_overs_list = np.array(list(total_runs.values()))[:, 0]
-    total_runs_list = np.array(list(total_runs.values()))[:, 1]
-    labels = np.array(list(total_runs.keys()))
-    plt.subplot(121)
-    plt.title("Total runs conceeded")
-    p, tx, autotexts = plt.pie(total_runs_list, labels=labels, autopct="%1.1f%%",)
-    for i, a in enumerate(autotexts):
-        a.set_text("{}".format(total_runs_list[i]))
-    plt.subplot(122)
-    plt.title("Number of overs bowled")
-    _, _, autotexts = plt.pie(total_overs_list, labels=labels, autopct="")
-    for i, a in enumerate(autotexts):
-        a.set_text("{}".format(total_overs_list[i]))
-    plt.show()  
