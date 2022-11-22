@@ -35,8 +35,8 @@ def team_toss_winner_graph():
     team_toss_frame.reset_index(inplace=True)
     team_toss_frame.rename(columns={'index': 'team'},inplace=True)
     team_toss_frame.sort_values(by="win_rate",inplace=True,ascending=False)
-    pic=sns.barplot(data=team_toss_frame,x='win_rate',y='team',ci=None,hue_order=team_toss_frame["win_rate"])
-    sns.set(rc={'figure.figsize':(8.7,11.27)}) #The graph size may not fit your computer or screen, feel free to change it!
+    pic=sns.barplot(data=team_toss_frame,x='win_rate',y='team',errorbar=None,hue_order=team_toss_frame["win_rate"])
+    #sns.set(rc={'figure.figsize':(8.7,11.27)}) #The graph size may not fit your computer or screen, feel free to change it!
     i=1
     for index,row in team_toss_frame.iterrows():
         pic.text(row['win_rate']+0.01,i-0.8,row['tosswinner'],ha="center")
@@ -49,6 +49,7 @@ def team_toss_winner_graph():
     pic.set_ylabel('Team',fontsize=16)
     
     pic.set_xlim(0,0.8) 
+    plt.subplot(111)
     plt.show()
     
 def toss_winner_choice_table():
@@ -108,10 +109,11 @@ def toss_winner_choice_table():
 
     pic = sns.heatmap(team_choice_frame, annot=True, xticklabels=[
                       "Bat", "Field", "Bat win", "Field win"], cmap="Blues", annot_kws={"fontsize": 15})
-    sns.set(rc={'figure.figsize':(8.7,11.27)})
+    #sns.set(rc={'figure.figsize':(8.7,11.27)})
     
     # Feel free to change the settings!
     pic.xaxis.tick_top()
+    plt.subplot(111)
     plt.xticks(fontsize=15)
     plt.yticks(fontsize=12)
     plt.show()
